@@ -1,0 +1,25 @@
+[project]
+name        = 'deeplearning'
+description = 'Project used to experiment with deeplearning tools'
+version     = '0.0.1'
+readme      = 'README.md'
+dependencies= [
+'torch',
+'torchvision',
+'torchaudio',
+'numpy',
+]
+
+[project.optional-dependencies]
+dev  = ['pytest']
+
+[tools.setuptools.packages.find]
+where   = ['src']
+
+[project.scripts]
+
+[tool.setuptools.package-data]
+
+[tool.setuptools]
+script-files=[
+]
