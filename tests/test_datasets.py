@@ -5,8 +5,9 @@ Script with testing functions for pytorch datasets
 import torch
 import matplotlib.pyplot as plt
 
-from torch.utils.data import Dataset
+from torch.utils.data import DataLoader
 from deeplearning     import utilities as ut
+
 # ---------------------------------------------
 def test_datasets():
     trn_data   = ut.get_data(train= True)
@@ -35,3 +36,21 @@ def test_datasets():
         plt.imshow(img.squeeze(), cmap='gray')
     plt.show()
 # ---------------------------------------------
+def test_dataloader():
+    '''
+    Test for Dataloader class
+    '''
+    data   = ut.get_data(train=True)
+    loader = DataLoader(data, batch_size=64, shuffle=True)
+
+    features, labels = next(iter(loader))
+    print(f'Feature batch shape: {features.size()}')
+    print(f'Labels batch shape: {labels.size()}')
+    img   = features[0].squeeze()
+    label = labels[0]
+
+    plt.imshow(img, cmap='gray')
+    plt.show()
+    print(f'Label: {label}')
+# ---------------------------------------------
+
