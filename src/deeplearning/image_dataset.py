@@ -9,12 +9,18 @@ import pandas as pd
 from torchvision.io     import read_image
 from torch.utils.data   import Dataset
 
+# --------------------------------
 class ImageDataset(Dataset):
     '''
     Class meant to implement custom functionality for image processing
     '''
     # --------------------------------
-    def __init__(self, annotations_file, img_dir, transform=None, target_transform=None):
+    def __init__(self,
+                 annotations_file: str,
+                 img_dir         : str,
+                 transform       =None,
+                 target_transform=None):
+
         self._img_labels       = pd.read_csv(annotations_file)
         self._img_dir          = img_dir
         self._transform        = transform
@@ -23,12 +29,18 @@ class ImageDataset(Dataset):
     def __len__(self):
         return len(self._img_labels)
     # --------------------------------
-    def __getitem__(self, idx):
-        img_path = os.path.join(self.img_dir, self.img_labels.iloc[idx, 0])
-        image = read_image(img_path)
-        label = self.img_labels.iloc[idx, 1]
+    def __getitem__(self, idx : int) -> tuple:
+        fname    = self._img_labels.iloc[idx, 0]
+        label    = self._img_labels.iloc[idx, 1]
+
+        img_path = os.path.join(self._img_dir, fname)
+        image    = read_image(img_path)
+
         if self.transform:
-            image = self.transform(image)
+            image = self._transform(image)
+
         if self.target_transform:
-            label = self.target_transform(label)
+            label = self._target_transform(label)
+
         return image, label
+# --------------------------------
