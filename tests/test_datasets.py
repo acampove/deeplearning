@@ -3,6 +3,7 @@ Script with testing functions for pytorch datasets
 '''
 
 import torch
+import pytest
 import matplotlib.pyplot as plt
 
 from torch.utils.data import DataLoader
@@ -36,11 +37,12 @@ def test_datasets():
         plt.imshow(img.squeeze(), cmap='gray')
     plt.show()
 # ---------------------------------------------
-def test_dataloader():
+@pytest.mark.parametrize('is_training', [True, False])
+def test_dataloader(is_training : bool):
     '''
     Test for Dataloader class
     '''
-    data   = ut.get_data(train=True)
+    data   = ut.get_data(train=is_training)
     loader = DataLoader(data, batch_size=64, shuffle=True)
 
     features, labels = next(iter(loader))
